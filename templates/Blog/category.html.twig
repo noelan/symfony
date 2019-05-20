@@ -4,7 +4,7 @@
  	<H2>Article de la catégorie : {{ articles[0].category.name }} </H2>
 
  	{% for article in articles %}
- 	<h4>Titre : {{ article.title }}</h4>
+ 	<h4 class="text-info">Titre : {{ article.title }}</h4>
  		<p>{{ article.content }}</p>
  	{% endfor %}
 

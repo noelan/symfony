@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+ {% block body %}
+
+ 	<H2>Titre de l'article : {{ article.title }} </H2>
+
+ 	<p>{{ article.content}}</p>
+ 	<a href="{{ path('blog_edit', {id: article.id}) }}"><h3>Editer l'article</h3></a>
+
+ {% endblock %}

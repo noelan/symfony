@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
  {% block body %}
 
- 	<H2>Article de la catégorie : {{ articles[0].category.name }} </H2>
+ 	<H2>Article de la catégorie : {{ category.name }} </H2>
 
  	{% for article in articles %}
- 	<h4 class="text-info">Titre : {{ article.title }}</h4>
+ 	<a href="{{ path('show_one', {id: article.id}) }}"><h4 class="text-info">Titre : {{ article.title }}</h4></a>
  		<p>{{ article.content }}</p>
  	{% endfor %}
 

@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+ {% block body %}
+
+ 	<h2>Hey</h2>
+
+
+ 	{{ form_start(formCategory) }}
+ 		{{ form_row(formCategory.name, { 'attr': {'placeholder' :'Name'}}) }}
+ 	<button type="submit" class="btn btn-info">Add a Category</button>
+ 	{{ form_end(formCategory) }}
+
+ {% endblock %}

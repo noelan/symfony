@@ -7,4 +7,6 @@
  		<a href="{{ path('blog_category', {name: category.name}) }}"><li>{{ category.name }}</li></a>
  	{% endfor %}
     </ul>
+    <a href="{{ path('blog_new') }}" class="text-success"><h3>Ajouter un article</h3></a>
+    <a href="{{ path('category_new') }}" class="text-success"><h3>Ajouter une categorie</h3></a>
  {% endblock %}

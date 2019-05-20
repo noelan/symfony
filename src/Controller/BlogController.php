@@ -7,9 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-	use Symfony\Component\HttpFoundation\Request;
-	use Doctrine\Common\Persistence\ObjectManager;
-	use App\Entity\Category;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Persistence\ObjectManager;
+use App\Entity\Category;
 use App\Entity\Article;
 	
 
@@ -74,7 +74,7 @@ class BlogController extends AbstractController
  			$manager->persist($data);
  			$manager->flush();	
 
- 		return $this->redirectToRoute('blog_category', ['categoryName' => $data->getCategory()->getName()]);
+ 		return $this->redirectToRoute('show_one', ['id' => $article->getId()	]);
  	   	}
 
  		return $this->render('/Blog/create_article.html.twig', [
@@ -82,5 +82,13 @@ class BlogController extends AbstractController
  				// editMode 
  				'editMode' => $article->getId()
  		]);
+    }
+
+    /**
+     * @Route("/blog/show_one/{id}", name="show_one")
+     */
+    public function showOne(Article $article)
+    {
+    	return $this->render('/Blog/show_one.html.twig', ['article' => $article]);
     }
 }

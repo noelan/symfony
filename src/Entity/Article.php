@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,6 +32,11 @@ class Article
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="articles")
      */
     private $category;
+
+    public function __construct()
+    {
+        $this->colors = new ArrayCollection();
+    }
 
 
 
@@ -73,6 +80,5 @@ class Article
 
         return $this;
     }
-
 }
 

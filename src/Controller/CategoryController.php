@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Category;
+use App\Entity\Article;
 use App\Form\CategoryType;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -26,6 +27,7 @@ class CategoryController extends AbstractController
 			$data = $form->getdata();
 			$manager->persist($data);
  			$manager->flush();
+ 			return $this->redirectToRoute('blog_index');
 		}
 
 		return $this->render('/Blog/add_category.html.twig', [
@@ -33,8 +35,20 @@ class CategoryController extends AbstractController
 		]);
 	}
 
-	public function delete(Request $request, ObjectManager $manager)
+
+	/**
+	 * @Route("/category/delete/{id}", name="category_delete")
+	 */
+	public function delete(Category $category = null,Article $articles = null, ObjectManager $manager)
 	{
-			echo "hey";
+			$articles = $category->getArticles();
+			foreach ($articles as $article) {
+				$category->removeArticle($article);
+			}		
+
+			$manager->remove($category);
+			$manager->flush();
+			
+			return $this->redirectToRoute('blog_index');
 	}
 }

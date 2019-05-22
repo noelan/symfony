@@ -7,5 +7,16 @@
  	<a href="{{ path('show_one', {id: article.id}) }}"><h4 class="text-info">Titre : {{ article.title }}</h4></a>
  		<p>{{ article.content }}</p>
  	{% endfor %}
+ 	<p class="btn btn-info" onclick="confirmMessage()">Delete Category</p>
+ 	<script>
+
+ 	function confirmMessage() {
+ 		if(confirm("Voulez vous vraiment suprimer cette catégorie")) {
+ 				window.location.href = "{{ path('category_delete', {id: category.id}) }}";
+ 		}
+ 	}
+
+ 	</script>
+
 
  {% endblock %}

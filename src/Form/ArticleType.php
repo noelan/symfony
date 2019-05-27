@@ -14,8 +14,10 @@ class ArticleType extends AbstractType
         $builder
             ->add('title')
             ->add('content')
-            ->add('category')
-        ;
+            ->add('category', null, ['choice_label' => 'name'])
+            ->add('tags', null, ['choice_label' => 'name'])
+            ;
+            
     }
 
     public function configureOptions(OptionsResolver $resolver)

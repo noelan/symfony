@@ -7,10 +7,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Category;
 use App\Entity\Article;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Tag;
 
 class BlogController extends AbstractController
 {
@@ -68,6 +71,14 @@ class BlogController extends AbstractController
     				 	'choices' => $categories,
     				 	'choice_label' => "name"
     				 ))
+                     ->add('tags', EntityType::class, [
+                        'class' => Tag::class,
+                        'choice_label' => 'name',
+                        'multiple' => true,
+                        'expanded' => true,
+                        'by_reference' => false,
+
+                        ])
     				 ->getForm();
 
  	   	$form->handleRequest($request);

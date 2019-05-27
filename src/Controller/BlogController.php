@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Category;
 use App\Entity\Article;
-	
 
 class BlogController extends AbstractController
 {
@@ -32,15 +31,19 @@ class BlogController extends AbstractController
     /**
      * @Route("/blog/category/{name}", name="blog_category")
      */
-    public function showByCategory(Category $category)
+    public function showByCategory(Category $category, Article $article)
     {
     	// $category = $this->getDoctrine()
  				// 		 ->getRepository(Category::class)
  				// 		 ->findOneBy(['name' => mb_strtolower($Category)]);
  		$articles = $category->getArticles();
 
+          
+
  		return $this->render('/Blog/category.html.twig', ['articles' => $articles,
- 														  'category' =>$category
+ 														  'category' =>$category,
+
+                                                       
 			]);
     }
 
@@ -88,7 +91,7 @@ class BlogController extends AbstractController
      * @Route("/blog/show_one/{id}", name="show_one")
      */
     public function showOne(Article $article)
-    {
+    {   
     	return $this->render('/Blog/show_one.html.twig', ['article' => $article]);
     }
 }

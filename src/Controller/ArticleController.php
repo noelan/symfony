@@ -19,7 +19,7 @@ class ArticleController extends AbstractController
      * @Route("/", name="article_index", methods={"GET"})
      */
     public function index(ArticleRepository $articleRepository): Response
-    {
+    {   
         return $this->render('article/index.html.twig', [
             'articles' => $articleRepository->findAll(),
         ]);
@@ -52,7 +52,7 @@ class ArticleController extends AbstractController
      * @Route("/{id}", name="article_show", methods={"GET"})
      */
     public function show(Article $article): Response
-    {
+    {   
         return $this->render('article/show.html.twig', [
             'article' => $article,
         ]);

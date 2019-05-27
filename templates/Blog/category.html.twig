@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+	{% extends 'base.html.twig' %}
  {% block body %}
 
  	<H2>Article de la catégorie : {{ category.name }} </H2>
@@ -6,6 +6,7 @@
  	{% for article in articles %}
  	<a href="{{ path('show_one', {id: article.id}) }}"><h4 class="text-info">Titre : {{ article.title }}</h4></a>
  		<p>{{ article.content }}</p>
+ 		<p>Tag : </p>
  	{% endfor %}
  	<p class="btn btn-info" onclick="confirmMessage()">Delete Category</p>
  	<script>

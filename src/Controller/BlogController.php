@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Category;
 use App\Entity\Article;
+use App\Service\Slugify;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\Tag;
 
@@ -54,7 +55,7 @@ class BlogController extends AbstractController
      * @Route("/blog/new", name="blog_new")
      * @Route("/blog/edit/{id}", name="blog_edit")
      */
-    public function form(Article $article = null, Request $request, ObjectManager $manager)
+    public function form(Article $article = null, Request $request, ObjectManager $manager, Slugify $slugify)
     {
 
     	if(!$article) {
@@ -85,6 +86,7 @@ class BlogController extends AbstractController
  	   	if ($form->isSubmitted() && $form->isValid()) 
  	   	{
  	   		$data = $form->getData();
+            $article->setSlug($slugify->generate($article->getTitle()));
  			$manager->persist($data);
  			$manager->flush();	
 

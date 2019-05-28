@@ -6,6 +6,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Category;
 use App\Entity\Article;
+use App\Service\Slugify;
 use Faker;
 
 
@@ -22,13 +23,13 @@ class CategoryFixtures extends Fixture
     		$category = new Category();
     		$category->setName($catName);
     		$manager->persist($category);
-    		$this->addReference('categorie_' . $key, $category);
     		for ($i=0; $i <10 ; $i++) { 
+    			$slugify = New Slugify();
 	            $article = New Article();
-	            $article->setTitle($faker->name);
+	            $article->setTitle($faker->title);
 	            $article->setContent($faker->text);
+	            $article->setSlug($slugify->generate($article->getTitle()));
 	            $manager->persist($article);
-	            $article->setCategory($this->getReference('categorie_' . $key, $category));
 	           
         }
     		

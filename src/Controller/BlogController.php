@@ -15,6 +15,10 @@ use App\Entity\Article;
 use App\Service\Slugify;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\Tag;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Translation\Loader\ArrayLoader;
+use Symfony\Component\Translation\Translator;
+
 
 class BlogController extends AbstractController
 {
@@ -23,12 +27,28 @@ class BlogController extends AbstractController
     /**
      * @Route("/", name="blog_index")
     */
-    public function index()
+    public function index(TranslatorInterface $translator)
     {
     	$categories = $this->getDoctrine()
  						   ->getRepository(Category::class)
  						   ->findAll();
-        return $this->render('/Blog/index.html.twig', ['categories' => $categories
+
+        $language = $_SESSION['language'] = "en_US";
+
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
+            switch($_POST['language']) {
+                case "fr_FR";
+                    $language = $_POST['language'];
+                    break;
+                case "en_US";
+                    $language = $_POST['language'];
+                    break;
+            }            
+        }
+
+        return $this->render('/Blog/index.html.twig', ['categories' => $categories,
+                                                       'language' => $language
+                                                       // 'translated' => $translated
 			]);
     }
 

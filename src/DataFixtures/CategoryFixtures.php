@@ -27,7 +27,8 @@ class CategoryFixtures extends Fixture
     			$slugify = New Slugify();
 	            $article = New Article();
 	            $article->setTitle($faker->title);
-	            $article->setContent($faker->text);
+	            $article->setContent($faker->title);
+	            $article->setCategory($category);
 	            $article->setSlug($slugify->generate($article->getTitle()));
 	            $manager->persist($article);
 	           

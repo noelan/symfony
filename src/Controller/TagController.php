@@ -15,6 +15,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TagController extends AbstractController
 {
+
+
     /**
      * @Route("/", name="tag_index", methods={"GET"})
      */
@@ -28,7 +30,7 @@ class TagController extends AbstractController
     /**
      * @Route("/new", name="tag_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, \Swift_Mailer $mailer): Response
     {
         $tag = new Tag();
         $form = $this->createForm(TagType::class, $tag);
@@ -39,6 +41,21 @@ class TagController extends AbstractController
             $entityManager->persist($tag);
             $entityManager->flush();
 
+            $message=(new \Swift_Message('New tag created'))
+                ->setTo($_POST['email'])
+                ->setBody(
+                    $this->renderView('Blog/email.html.twig',
+                        [
+                            'name' => $_POST['email'],
+                            'tag' => $tag,
+                        
+                        ]
+                        ),
+                        'text/html'
+                    )
+                ;
+            $mailer->send($message);
+
             return $this->redirectToRoute('tag_index');
         }
 
@@ -48,6 +65,16 @@ class TagController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/{id}", name="tag_show", methods={"GET"})
+     */
+    public function show(Tag $tag): Response
+    {
+        return $this->render('tag/show.html.twig', [
+            'tag' => $tag,
+        ]);
+    }
+    
 
     /**
      * @Route("/{id}/edit", name="tag_edit", methods={"GET","POST"})
@@ -98,14 +125,6 @@ class TagController extends AbstractController
 
     }
 
-    /**
-     * @Route("/{id}", name="tag_show", methods={"GET"})
-     */
-    public function show(Tag $tag): Response
-    {
-        return $this->render('tag/show.html.twig', [
-            'tag' => $tag,
-        ]);
-    }
+   
 
 }

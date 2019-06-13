@@ -107,6 +107,8 @@ class BlogController extends AbstractController
  	   	{
  	   		$data = $form->getData();
             $article->setSlug($slugify->generate($article->getTitle()));
+            $author = $this->getUser();
+            $article->setAuthor($author);
  			$manager->persist($data);
  			$manager->flush();	
 

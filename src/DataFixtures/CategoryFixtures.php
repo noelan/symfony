@@ -18,23 +18,24 @@ class CategoryFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-    	$faker  =  Faker\Factory::create('fr_FR');
-    	foreach (self::CATEGORIES as $key => $catName) {
-    		$category = new Category();
-    		$category->setName($catName);
-    		$manager->persist($category);
-    		for ($i=0; $i <10 ; $i++) { 
-    			$slugify = New Slugify();
-	            $article = New Article();
-	            $article->setTitle($faker->title);
-	            $article->setContent($faker->title);
-	            $article->setCategory($category);
-	            $article->setSlug($slugify->generate($article->getTitle()));
-	            $manager->persist($article);
-	           
+    	for ($i = 1; $i <= 1000; $i++) {
+       $category = new Category();
+       $category->setName("category " . $i);
+       $manager->persist($category);
+
+       $tag = new Tag();
+       $tag->setName("tag " . $i);
+       $manager->persist($tag);
+
+       $article = new Article();
+       $article->setTitle("article " . $i);
+       $article->setSlug($this->slugify>generate($article->getTitle()));
+       $article->setContent("article " . $i . " content");
+       $article->setCategory($category);
+       $article->addTag($tag);
+       $manager->persist($article);
         }
-    		
-    	}
-    	$manager->flush();
+
+        $manager->flush();
     }
 }

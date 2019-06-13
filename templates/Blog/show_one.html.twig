@@ -4,6 +4,7 @@
  	<H2>Titre de l'article : {{ article.title }} </H2>
 
  	<p>{{ article.content}}</p>
+ 	 <p>L'auteur est {{ article.author.email }}</p>
  	<p>Tag:</p>
  <ul>
     {% for tag in article.tags %}

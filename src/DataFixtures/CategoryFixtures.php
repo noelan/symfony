@@ -26,8 +26,7 @@ class CategoryFixtures extends Fixture implements DependentFixtureInterface
     		$category = new Category();
     		$category->setName($catName);
             $compteur = 1;
-
-            
+       
 
     		$manager->persist($category);
     		for ($i=0; $i <10 ; $i++) { 

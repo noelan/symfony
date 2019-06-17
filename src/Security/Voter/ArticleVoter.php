@@ -36,8 +36,10 @@ class ArticleVoter extends Voter
             }
                 
             case 'DELETE':
-                return $article->getAuthor()->getId() == $user->getId();
-                break;
+               if (($article->getAuthor()->getId() === $user->getId()) ||
+                ('ROLE_ADMIN' === $user->getRoles()[0])){
+                return true;
+            }
         }
 
         return false;

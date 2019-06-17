@@ -126,7 +126,7 @@ class BlogController extends AbstractController
      * @Route("/blog/show_one/{id}", name="show_one")
      */
     public function showOne(Article $article)
-    {   
+    {   dump($article);
     	return $this->render('/Blog/show_one.html.twig', ['article' => $article]);
     }
 }

@@ -6,36 +6,54 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Category;
 use App\Entity\Article;
+use App\Entity\User;
 use App\Service\Slugify;
 use Faker;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 
 
 
-class CategoryFixtures extends Fixture
+
+class CategoryFixtures extends Fixture implements DependentFixtureInterface
 {
 	const CATEGORIES = ['PHP', 'JS', 'Java', 'Python', 'C'];
 
     public function load(ObjectManager $manager)
     {
-    	for ($i = 1; $i <= 1000; $i++) {
-       $category = new Category();
-       $category->setName("category " . $i);
-       $manager->persist($category);
+    	$faker  =  Faker\Factory::create('fr_FR');
+    	foreach (self::CATEGORIES as $key => $catName) {
+    		$category = new Category();
+    		$category->setName($catName);
+            $compteur = 1;
 
-       $tag = new Tag();
-       $tag->setName("tag " . $i);
-       $manager->persist($tag);
+            
 
-       $article = new Article();
-       $article->setTitle("article " . $i);
-       $article->setSlug($this->slugify>generate($article->getTitle()));
-       $article->setContent("article " . $i . " content");
-       $article->setCategory($category);
-       $article->addTag($tag);
-       $manager->persist($article);
+    		$manager->persist($category);
+    		for ($i=0; $i <10 ; $i++) { 
+    			$slugify = New Slugify();
+	            $article = New Article();
+	            $article->setTitle($faker->title);
+	            $article->setContent($faker->title);
+	            $article->setCategory($category);
+	            $article->setSlug($slugify->generate($article->getTitle()));
+                if ($compteur % 2 == 0) {
+                    $article->setAuthor($this->getReference('author'));
+                }else{
+                    $article->setAuthor($this->getReference('admin'));
+                }
+                $compteur++;
+	            $manager->persist($article);
+	           
         }
-
-        $manager->flush();
+    		
+    	}
+    	$manager->flush();
     }
+
+    public function getDependencies()
+    {
+        return [UserFixtures::class];
+    }
+
 }

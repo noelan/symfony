@@ -3,7 +3,9 @@
 {% block title %}Article index{% endblock %}
 
 {% block body %}
-    <h1>Article index</h1>
+    <h1>Article index</h1>  
+    {{ dump(app.user) }}
+
 
     <table class="table">
         <thead>
@@ -19,12 +21,16 @@
             <tr>
                 <td>{{ article.id }}</td>
                 <td>{{ article.title }}</td>
-                <td>{{ article.content }}</td>
                 <td>
                     <a href="{{ path('article_show', {'id': article.id}) }}">show</a>
-                    <a href="{{ path('article_edit', {'id': article.id}) }}">edit</a>
+                    {% if app.user %}
+                    {% if is_granted('ROLE_ADMIN') or (app.user.id == article.author.id) %}
+                        <a href="{{ path('article_edit', { 'id': article.id} ) }}">Éditer</a>
+                    {% endif %}
+                    {% endif %} 
                 </td>
             </tr>
+
         {% else %}
             <tr>
                 <td colspan="4">no records found</td>

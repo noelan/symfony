@@ -7,6 +7,8 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Entity\User;
 
+
+
 class UserFixtures extends Fixture
 {
 
@@ -26,19 +28,25 @@ class UserFixtures extends Fixture
         ));
 
         $manager->persist($author);
+        $this->addReference('author', $author);
 
         // Création d’un utilisateur de type “administrateur”
         $admin = new User();
         $admin->setEmail('admin@monsite.com');
-        $admin->setRoles(['ROLE_ADMIN']);
+        $admin->setRoles(['ROLE_ADMIN','ROLE_AUTHOR']);
         $admin->setPassword($this->passwordEncoder->encodePassword(
             $admin,
             'adminpassword'
         ));
 
         $manager->persist($admin);
+        $this->addReference('admin', $admin);
 
         // Sauvegarde des 2 nouveaux utilisateurs :
         $manager->flush();
     }
+
+    
+
+
 }

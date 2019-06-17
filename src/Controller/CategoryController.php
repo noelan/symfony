@@ -11,11 +11,13 @@ use App\Entity\Category;
 use App\Entity\Article;
 use App\Form\CategoryType;
 use Doctrine\Common\Persistence\ObjectManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class CategoryController extends AbstractController
 {
 	/**
 	*@Route("/category/new", name="category_new")
+	* @IsGranted("ROLE_ADMIN")
 	*/
 	public function add(Request $request, ObjectManager $manager)
 	{

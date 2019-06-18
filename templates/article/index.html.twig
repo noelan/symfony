@@ -21,6 +21,12 @@
             <tr>
                 <td>{{ article.id }}</td>
                 <td>{{ article.title }}</td>
+                <td> 
+                    {% for tag in article.tags %}
+                    <li>{{ tag.name }} </li>
+                {% else %}
+                    <li>No tags for this article</li>
+                {% endfor %}</td>
                 <td>
                     <a href="{{ path('article_show', {'id': article.id}) }}">show</a>
                     {% if app.user %}

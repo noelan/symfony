@@ -38,5 +38,5 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/article, roles: ROLE_ADMIN }
-        - { path: ^/article, roles: ROLE_AUTHOR }
+        # { path: ^/article, roles: ROLE_AUTHOR }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }

@@ -7,6 +7,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Category;
 use App\Entity\Article;
 use App\Entity\User;
+use App\Entity\Tag;
 use App\Service\Slugify;
 use Faker;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -22,31 +23,27 @@ class CategoryFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
     	$faker  =  Faker\Factory::create('fr_FR');
-    	foreach (self::CATEGORIES as $key => $catName) {
-    		$category = new Category();
-    		$category->setName($catName);
-            $compteur = 1;
-       
 
-    		$manager->persist($category);
-    		for ($i=0; $i <10 ; $i++) { 
+    		for ($i=0; $i <1000 ; $i++) { 
+                $category = new Category();
+                $category->setName("cat" . $i);
+                $manager->persist($category);
     			$slugify = New Slugify();
 	            $article = New Article();
+                $tag = new Tag();
+                $tag->setName("tag " . $i);
+                $manager->persist($tag);
 	            $article->setTitle($faker->title);
 	            $article->setContent($faker->title);
 	            $article->setCategory($category);
+                $article->addTag($tag);
 	            $article->setSlug($slugify->generate($article->getTitle()));
-                if ($compteur % 2 == 0) {
-                    $article->setAuthor($this->getReference('author'));
-                }else{
-                    $article->setAuthor($this->getReference('admin'));
-                }
-                $compteur++;
+                $article->setAuthor($this->getReference('author'));
 	            $manager->persist($article);
 	           
         }
     		
-    	}
+    	
     	$manager->flush();
     }
 

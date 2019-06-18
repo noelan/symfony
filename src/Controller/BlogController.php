@@ -18,6 +18,7 @@ use App\Entity\Tag;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Translation\Loader\ArrayLoader;
 use Symfony\Component\Translation\Translator;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 
 class BlogController extends AbstractController
@@ -27,8 +28,16 @@ class BlogController extends AbstractController
     /**
      * @Route("/", name="blog_index")
     */
-    public function index(TranslatorInterface $translator)
+    public function index(TranslatorInterface $translator, SessionInterface $session)
     {
+        
+        if (!$session->has('total')) {
+        $session->set('total', 0); // if total doesn’t exist in session, it is initialized.
+          }
+
+        $total = $session->get('total'); // get actual value in session with ‘total' key.
+        // ...
+
     	$categories = $this->getDoctrine()
  						   ->getRepository(Category::class)
  						   ->findAll();

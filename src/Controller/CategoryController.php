@@ -50,6 +50,7 @@ class CategoryController extends AbstractController
 
 			$manager->remove($category);
 			$manager->flush();
+			$this->addFlash('danger', "L'article a été supprimé");
 			
 			return $this->redirectToRoute('blog_index');
 	}

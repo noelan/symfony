@@ -49,6 +49,8 @@ class ArticleController extends AbstractController
             $entityManager->persist($article);
             $entityManager->flush();
 
+            $this->addFlash('success', 'The new article has been created');
+
             return $this->redirectToRoute('article_index');
         }
 
@@ -84,6 +86,8 @@ class ArticleController extends AbstractController
             $article->setSlug($slugify->generate($article->getTitle()));
             $this->getDoctrine()->getManager()->flush();
 
+            $this->addFlash('success', 'The article is edited');
+
             return $this->redirectToRoute('article_index', [
                 'id' => $article->getId(),
             ]);
@@ -107,6 +111,7 @@ class ArticleController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($article);
             $entityManager->flush();
+            $this->addFlash('danger', "L'article a été supprimé");
         }
 
         return $this->redirectToRoute('article_index');
